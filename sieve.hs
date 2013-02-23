@@ -1,8 +1,25 @@
--- Copyright © 2013 Bart Massey
 -- "Genuine Sieve of Eratosthenes"
 
+-- | This is an implementation of what I believe to be "The
+-- Genuine Sieve of Eratosthenes". The idea is taken from
+-- the paper of this title by Melissa E. O'Neill,
+-- J. Functional Programming 19:1, January 2009 
+-- <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>.
+-- However, the implementation is my own, from scratch.
+-- 
+-- The basic idea of this implementation is to represent the
+-- various sieves as infinite lists, and the whole sieve as
+-- a 'Set' of these lists. Since 'Data.Set' provides
+-- reasonably efficient routines for treating a 'Set' as a
+-- min-heap, and since the default 'Ord' instance on lists
+-- works just the way we want, we just walk up the sieve
+-- dropping no-longer-useful values off the front of the
+-- lists.
+-- 
+-- Comparison of the performance of this code with 
 import Data.Set
 
+-- | 
 advance :: Integer -> Set [Integer] -> Set [Integer]
 advance n fs =
   case deleteFindMin fs of
