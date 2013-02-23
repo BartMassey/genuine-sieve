@@ -16,10 +16,14 @@
 -- dropping no-longer-useful values off the front of the
 -- lists.
 -- 
--- Comparison of the performance of this code with 
+-- Comparison of the performance of this code with
+-- implementations from the paper shows it to be slower, but
+-- not dramatically so.
+
 import Data.Set
 
--- | 
+-- | "Advance" all the lists in the set by dropping
+-- any initial prefix less than or equal to 'n' from each.
 advance :: Integer -> Set [Integer] -> Set [Integer]
 advance n fs =
   case deleteFindMin fs of
@@ -28,6 +32,8 @@ advance n fs =
       | m > n -> fs
     _ -> error "internal error: bad advance"
 
+-- | Actual Sieve. Takes a starting point and an
+-- an initial filter list, which may not be empty.
 soe :: Integer -> Set [Integer] -> [Integer]
 soe n filters =
   case findMin filters of
@@ -35,8 +41,10 @@ soe n filters =
       | m < n -> error "internal error: unadvanced filter"
       | m == n -> soe (n + 2) (advance n filters)
     _ -> 
-      n : soe (n + 2) ([3 * n, 5 * n ..] `insert` filters)
+      n : soe (n + 2) ([n * n, (n + 2) * n ..] `insert` filters)
   
+-- | Limit Sieve. Takes advantage of the known upper
+-- bound to cut runtime by approximately half.
 soeLim :: Integer -> Integer -> Set [Integer] -> [Integer]
 soeLim n lim _ | n > lim =
   []
@@ -50,16 +58,19 @@ soeLim n lim filters =
   where
     filters' =
       if n * n <= lim
-      then [3 * n, 5 * n ..] `insert` filters
+      then [n * n, (n + 2) * n ..] `insert` filters
       else filters
   
+-- | Infinite list of primes.
 primes :: [Integer]
 primes = 2 : 3 : soe 5 (singleton [9, 15 ..])
 
+-- | List of primes less than or equal to 'n'.
 primesLim :: Integer -> [Integer]
 primesLim n = 2 : 3 : soeLim 5 n (singleton [9, 15 ..])
 
+-- | Test the program's operation.
 main :: IO ()
-main = do
-  print $ length $ takeWhile (<2000000) $ primes
+main =
+  -- print $ length $ takeWhile (<2000000) $ primes
   print $ length $ primesLim 1999999
