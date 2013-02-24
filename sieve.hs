@@ -17,8 +17,8 @@
 -- lists.
 -- 
 -- Comparison of the performance of this code with
--- implementations from the paper shows it to be slower, but
--- not dramatically so.
+-- implementations from the paper shows it to be very
+-- comparable.
 
 import Data.Set
 
@@ -72,5 +72,5 @@ primesLim n = 2 : 3 : soeLim 5 n (singleton [9, 15 ..])
 -- | Test the program's operation.
 main :: IO ()
 main =
-  -- print $ length $ takeWhile (<2000000) $ primes
-  print $ length $ primesLim 1999999
+  print $ length $ takeWhile (<2000000) $ primes
+  -- print $ length $ primesLim 1999999
