@@ -34,14 +34,15 @@ advance n fs =
 
 -- | Actual Sieve. Takes a starting point and an
 -- an initial filter list, which may not be empty.
-soe :: Integer -> Set [Integer] -> [Integer]
-soe n filters =
+soe :: [Integer] -> Set [Integer] -> [Integer]
+soe [] _ = []
+soe (n : ns) filters =
   case findMin filters of
     (m : _) 
       | m < n -> error "internal error: unadvanced filter"
-      | m == n -> soe (n + 2) (advance n filters)
+      | m == n -> soe ns (advance n filters)
     _ -> 
-      n : soe (n + 2) ([n * n, (n + 2) * n ..] `insert` filters)
+      n : soe ns (Prelude.map (n *) (n : ns) `insert` filters)
   
 -- | Limit Sieve. Takes advantage of the known upper
 -- bound to cut runtime by approximately half.
@@ -63,7 +64,7 @@ soeLim n lim filters =
   
 -- | Infinite list of primes.
 primes :: [Integer]
-primes = 2 : 3 : soe 5 (singleton [9, 15 ..])
+primes = 2 : 3 : soe [5, 7 ..] (singleton [9, 15 ..])
 
 -- | List of primes less than or equal to 'n'.
 primesLim :: Integer -> [Integer]
