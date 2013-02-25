@@ -9,7 +9,7 @@ SIEVES = $(HS_SIEVES) c-sieve
 .SUFFIXES: .hs .hi
 
 .hs.o:
-	ghc -Wall -O2 --make -c $*.hs
+	ghc -Wall -O2 $(GHCFLAGS) --make -c $*.hs
 
 all: $(SIEVES)
 
