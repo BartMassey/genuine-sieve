@@ -3,7 +3,7 @@
 -- Please see the file COPYING in the source
 -- distribution of this software for license terms.
 
--- Default main for "Genuine Sieve of Eratosthenes" tests.
+-- Default main for "Genuine Sieve of Eratosthenes" implementations.
 
 module DefaultMain (defaultMain)
 where

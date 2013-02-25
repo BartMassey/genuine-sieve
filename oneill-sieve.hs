@@ -8,6 +8,7 @@
 -- full wheel, for comparison purposes. The PQ is custom-
 -- crafted: see the comments there for details.
 
+import DefaultMain
 import PQ
 
 primes :: [Integer]
@@ -32,5 +33,4 @@ sieve (x0:xs0) =
             (n, n':ns) = findMin table'
 
 main :: IO ()
-main = do
-  print $ length $ takeWhile (<2000000) primes
+main = defaultMain primes Nothing

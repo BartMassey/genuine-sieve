@@ -5,6 +5,8 @@
 -- From the paper of the same title by Melissa E. O'Neill,
 -- <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>.
 
+import DefaultMain
+
 primes :: [Integer]
 primes = 2:([3..] `minus` composites)
   where
@@ -30,5 +32,4 @@ union = foldr merge []
     merge' _ _ = error "internal error: bad merge'"
 
 main :: IO ()
-main = do
-  print $ length $ takeWhile (<2000000) $ primes
+main = defaultMain primes Nothing

@@ -8,17 +8,19 @@ SIEVES = sieve oneill-sieve bird-sieve c2-sieve
 
 all: $(SIEVES)
 
-sieve: sieve.hs DefaultMain.hs
+sieve: sieve.hs
 	ghc -Wall -O2 --make -o sieve sieve.hs
 
 oneill-sieve: oneill-sieve.hs PQ.hs
 	ghc -Wall -O2 --make -o oneill-sieve oneill-sieve.hs
 
 bird-sieve: bird-sieve.hs
-	ghc -Wall -O2 -o bird-sieve bird-sieve.hs
+	ghc -Wall -O2 --make -o bird-sieve bird-sieve.hs
 
 c2-sieve: c2-sieve.hs
-	ghc -Wall -O2 -o c2-sieve c2-sieve.hs
+	ghc -Wall -O2 --make -o c2-sieve c2-sieve.hs
+
+$(SIEVES): DefaultMain.hs
 
 clean:
 	-rm -f *.hi *.o $(SIEVES)

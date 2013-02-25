@@ -5,6 +5,8 @@
 -- from the c2 wiki. It is essentially Bird's algorithm, with some
 -- serious optimizations.
 
+import DefaultMain
+
 union :: [Integer] -> [Integer] -> [Integer]
 union xs@(x:t) ys@(y:u) = 
   case (compare x y) of
@@ -38,5 +40,4 @@ primes =
       error "internal error: pairs ran off end"
 
 main :: IO ()
-main = do
-  print $ length $ takeWhile (<2000000) $ primes
+main = defaultMain primes Nothing
