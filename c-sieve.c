@@ -6,10 +6,10 @@
  */
 
 /* Sieve of Eratosthenes, with some simple optimizations, in
-   C. Some other simple optimizations are avoided to make
-   performance comparable with the Haskell implementations
-   here (use of limit to bound strikeoffs) or because they
-   are a pain (odd candidates only). */
+   C. The use of limit to bound strikeoffs is avoided to make
+   performance comparable with the Haskell implementations,
+   especially since this thing is already fast enough. */
+
 
 #include <assert.h>
 #include <stdio.h>
@@ -22,6 +22,7 @@ static void usage(void) {
 }
 
 static uint64_t *bits;
+static uint64_t *primes;
 
 static inline int bit(uint64_t i) {
     return (int)((bits[i >> 6LL] >> (i & 63LL)) & 1LL);
@@ -43,14 +44,17 @@ int main(int argc, char **argv) {
         usage();
     bits = calloc(limit / 64 + 2, 8);
     assert(bits);
+    primes = calloc(limit + 1, 8);
+    assert(primes);
     uint64_t count = 0;
-    for (uint64_t i = 2; i <= limit; i++) {
+    primes[count++] = 2;
+    for (uint64_t i = 3; i <= limit; i += 2) {
         if (!bit(i)) {
-            count++;
-            for (uint64_t j = i * i; j <= limit; j += i)
+            primes[count++] = i;
+            for (uint64_t j = i * i; j <= limit; j += 2 * i)
                 set_bit(j);
         }
     }
-    printf("%lu\n", count);
+    printf("%lu %lu\n", primes[count - 1], count);
     return 0;
 }
