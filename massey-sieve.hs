@@ -28,53 +28,43 @@
 import Data.Set
 import DefaultMain
 
--- | "Advance" all the lists in the set by dropping
--- any initial prefix less than or equal to 'n' from each.
-advance :: Integer -> Set [Integer] -> Set [Integer]
-advance n fs =
-  case deleteFindMin fs of
-    (m : ms, fs') 
-      | m <= n -> advance n (ms `insert` fs')
-      | m > n -> fs
-    _ -> error "internal error: bad advance"
-
--- | Actual Sieve. Takes a starting point and an
--- an initial filter list, which may not be empty.
-soe :: [Integer] -> Set [Integer] -> [Integer]
-soe [] _ = []
-soe (n : ns) filters =
-  case findMin filters of
-    (m : _) 
-      | m < n -> error "internal error: unadvanced filter"
-      | m == n -> soe ns (advance n filters)
-    _ -> 
-      n : soe ns (Prelude.map (n *) (n : ns) `insert` filters)
-  
--- | Limit Sieve. Takes advantage of the known upper
--- bound to cut runtime by approximately half.
-soeLim :: Integer -> Integer -> Set [Integer] -> [Integer]
-soeLim n lim _ | n > lim =
-  []
-soeLim n lim filters =
-  case findMin filters of
-    (m : _) 
-      | m < n -> error "internal error: unadvanced filter"
-      | m == n -> soeLim (n + 2) lim (advance n filters)
-    _ -> 
-      n : soeLim (n + 2) lim filters'
+-- | Sieve. Takes a list of candidate primes (maybe produced
+-- by a wheel). If a limit is supplied, this acts as a limit
+-- sieve, taking advantage of the known upper bound to cut
+-- runtime by approximately half.
+soe :: Maybe Integer -> [Integer] -> [Integer]
+soe _ [] = []
+soe limit (n : ns) =
+  n : soe' ns (singleton (makeStrikes n ns))
   where
-    filters' =
-      if n * n <= lim
-      then [n * n, (n + 2) * n ..] `insert` filters
-      else filters
+    makeStrikes x xs =
+      Prelude.map (x *) (x : xs)
+    soe' [] _ = []
+    soe' xs@(x' : xs') strikes =
+      case Data.Set.null strikes of
+        True -> xs
+        False ->
+          case deleteFindMin strikes of
+            ([], strikes') ->
+              soe' xs strikes'
+            (c : cs, strikes') ->
+              case c `compare` x' of
+                LT -> soe' xs (insert cs strikes')
+                EQ -> soe' xs' (insert cs strikes')
+                GT -> x' : soe' xs' limitStrikes
+              where
+                limitStrikes =
+                  case limit of
+                    Just l | x' * x' > l -> strikes
+                    _ -> insert (makeStrikes x' xs') strikes
   
 -- | Infinite list of primes.
 primes :: [Integer]
-primes = 2 : 3 : soe [5, 7 ..] (singleton [9, 15 ..])
+primes = 2 : soe Nothing [3, 5 ..]
 
 -- | List of primes less than or equal to 'n'.
 primesLim :: Integer -> [Integer]
-primesLim n = 2 : 3 : soeLim 5 n (singleton [9, 15 ..])
+primesLim n = 2 : soe (Just n) [3, 5 .. n]
 
 -- | Test the program's operation.
 main :: IO ()
