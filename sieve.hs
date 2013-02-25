@@ -23,9 +23,10 @@
 -- 
 -- Comparison of the performance of this code with
 -- implementations from the paper shows it to be very
--- comparable.
+-- comparable. The c2 implementation, on the other hand...
 
 import Data.Set
+import DefaultMain
 
 -- | "Advance" all the lists in the set by dropping
 -- any initial prefix less than or equal to 'n' from each.
@@ -77,6 +78,4 @@ primesLim n = 2 : 3 : soeLim 5 n (singleton [9, 15 ..])
 
 -- | Test the program's operation.
 main :: IO ()
-main =
-  print $ length $ takeWhile (<2000000) $ primes
-  -- print $ length $ primesLim 1999999
+main = defaultMain primes (Just primesLim)
