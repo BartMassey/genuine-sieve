@@ -1,3 +1,8 @@
+-- Copyright © 2013 Bart Massey
+-- [This work is licensed under the "MIT License"]
+-- Please see the file COPYING in the source
+-- distribution of this software for license terms.
+
 -- "Genuine Sieve of Eratosthenes"
 
 -- | This is an implementation of what I believe to be "The
