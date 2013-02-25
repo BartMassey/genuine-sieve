@@ -4,7 +4,7 @@
 # distribution of this software for license terms.
 
 
-SIEVES = sieve oneill-sieve bird-sieve
+SIEVES = sieve oneill-sieve bird-sieve c2-sieve
 
 all: $(SIEVES)
 
@@ -16,6 +16,9 @@ oneill-sieve: oneill-sieve.hs PQ.hs
 
 bird-sieve: bird-sieve.hs
 	ghc -Wall -O2 -o bird-sieve bird-sieve.hs
+
+c2-sieve: c2-sieve.hs
+	ghc -Wall -O2 -o c2-sieve c2-sieve.hs
 
 clean:
 	-rm -f *.hi *.o $(SIEVES)
