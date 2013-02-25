@@ -10,27 +10,47 @@ where
 
 import System.Console.ParseArgs
 
-data ArgLabel = ArgUseLimit | ArgLimit deriving (Enum, Ord, Eq, Show)
+data ArgLabel = 
+  ArgUseLimit | ArgPrint | ArgLimit
+  deriving (Enum, Ord, Eq, Show)
 
 argd :: [Arg ArgLabel]
 argd = [ Arg { argIndex = ArgUseLimit,
                argAbbr = Just 'l',
                argName = Just "use-limit",
                argData = Nothing,
-               argDesc = "Use the prime size limit to optimize generation" },
+               argDesc = "Use the prime size limit to optimize generation." },
+         Arg { argIndex = ArgPrint,
+               argAbbr = Just 'p',
+               argName = Just "print",
+               argData = Nothing,
+               argDesc = "Print primes instead of counting them." },
          Arg { argIndex = ArgLimit,
                argAbbr = Nothing,
                argName = Nothing,
-               argData = argDataDefaulted "limit" ArgtypeInteger 2000000,
+               argData = argDataOptional "limit" ArgtypeInteger,
                argDesc = "Largest candidate prime to use in count." } ]
 
 defaultMain :: [Integer] -> Maybe (Integer -> [Integer]) -> IO ()
 defaultMain primes primesLimit = do
   argv <- parseArgsIO ArgsComplete argd
-  let limit = getRequiredArg argv ArgLimit
-  case gotArg argv ArgUseLimit of
-    True ->
-      case primesLimit of
-        Nothing -> usageError argv "Use-limit flag unsupported by this sieve."
-        Just pl -> print $ length $ pl limit
-    False -> print $ length $ takeWhile (<= limit) primes
+  let limit = 
+        case getArg argv ArgLimit of
+          Just l -> l
+          Nothing ->
+            case gotArg argv ArgPrint of
+              True -> 100
+              False -> 2000000
+  let ps =
+        case gotArg argv ArgUseLimit of
+          True ->
+            case primesLimit of
+              Nothing -> 
+                usageError argv "Use-limit flag unsupported by this sieve."
+              Just pl -> 
+                pl limit
+          False -> 
+            takeWhile (<= limit) primes
+  case gotArg argv ArgPrint of
+    True -> print ps
+    False -> print $ length ps
