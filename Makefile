@@ -3,8 +3,8 @@
 # Please see the file COPYING in the source
 # distribution of this software for license terms.
 
-
-SIEVES = sieve oneill-sieve bird-sieve c2-sieve
+HS_SIEVES = sieve oneill-sieve bird-sieve c2-sieve 
+SIEVES = $(HS_SIEVES) c-sieve
 
 all: $(SIEVES)
 
@@ -20,7 +20,10 @@ bird-sieve: bird-sieve.hs
 c2-sieve: c2-sieve.hs
 	ghc -Wall -O2 --make -o c2-sieve c2-sieve.hs
 
-$(SIEVES): DefaultMain.hs
+c-sieve: c-sieve.c
+	gcc -Wall -O2 -std=c99 -o c-sieve c-sieve.c
+
+$(HS_SIEVES): DefaultMain.hs
 
 clean:
 	-rm -f *.hi *.o $(SIEVES)

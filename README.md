@@ -19,6 +19,11 @@ The file `c2-sieve.hs` is taken from the c2 wiki
 This is a scarily fast implementation: about an order of
 magnitude faster than the others here.
 
+The file `c-sieve.c` contains a fairly straightforward C
+implementation of the Sieve of Eratosthenes, without the
+2-wheel optimization or the limit optimization. Sadly, it is
+blindingly faster than any of the Haskell implementations.
+
 To build these, just use the supplied Makefile by typing
 "make". You will need a recent GHC release (I'm using 7.4.1
 currently), as well as my `parseargs` package, available
