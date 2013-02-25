@@ -14,6 +14,10 @@ using `Data.Map` that I wrote to make the O'Neill sieve
 work: it's not very fast. Please look at the comments in
 these files and at the paper for more information.
 
+The file `massey-sieve.hs` is my own implementation. It is a
+very simple implementation of O'Neill's idea, using
+`Data.Set` for the priority queue.
+
 The file `c2-sieve.hs` is taken from the c2 wiki
 <http://c2.com/cgi/wiki?SieveOfEratosthenesInManyProgrammingLanguages>.
 This is a scarily fast implementation: about an order of

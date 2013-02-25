@@ -3,13 +3,13 @@
 # Please see the file COPYING in the source
 # distribution of this software for license terms.
 
-HS_SIEVES = sieve oneill-sieve bird-sieve c2-sieve 
+HS_SIEVES = massey-sieve oneill-sieve bird-sieve c2-sieve 
 SIEVES = $(HS_SIEVES) c-sieve
 
 all: $(SIEVES)
 
-sieve: sieve.hs
-	ghc -Wall -O2 --make -o sieve sieve.hs
+massey-sieve: massey-sieve.hs
+	ghc -Wall -O2 --make -o massey-sieve massey-sieve.hs
 
 oneill-sieve: oneill-sieve.hs PQ.hs
 	ghc -Wall -O2 --make -o oneill-sieve oneill-sieve.hs
