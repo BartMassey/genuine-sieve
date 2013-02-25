@@ -8,13 +8,14 @@
 -- full wheel, for comparison purposes. The PQ is custom-
 -- crafted: see the comments there for details.
 
+import Data.Word
 import DefaultMain
 import PQ
 
-primes :: [Integer]
+primes :: [Word64]
 primes = 2 : sieve [3,5..]
 
-sieve :: [Integer] -> [Integer]
+sieve :: [Word64] -> [Word64]
 sieve [] = []
 sieve (x0:xs0) = 
   x0 : sieve' xs0 (insertprime x0 xs0 empty)

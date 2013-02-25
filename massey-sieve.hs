@@ -26,13 +26,14 @@
 -- comparable. The c2 implementation, on the other hand...
 
 import Data.Set
+import Data.Word
 import DefaultMain
 
 -- | Sieve. Takes a list of candidate primes (maybe produced
 -- by a wheel). If a limit is supplied, this acts as a limit
 -- sieve, taking advantage of the known upper bound to cut
 -- runtime by approximately half.
-soe :: Maybe Integer -> [Integer] -> [Integer]
+soe :: Maybe Word64 -> [Word64] -> [Word64]
 soe _ [] = []
 soe limit (n : ns) =
   n : soe' ns (singleton (makeStrikes n ns))
@@ -59,11 +60,11 @@ soe limit (n : ns) =
                     _ -> insert (makeStrikes x' xs') strikes
   
 -- | Infinite list of primes.
-primes :: [Integer]
+primes :: [Word64]
 primes = 2 : soe Nothing [3, 5 ..]
 
 -- | List of primes less than or equal to 'n'.
-primesLim :: Integer -> [Integer]
+primesLim :: Word64 -> [Word64]
 primesLim n = 2 : soe (Just n) [3, 5 .. n]
 
 -- | Test the program's operation.

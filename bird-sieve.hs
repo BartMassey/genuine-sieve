@@ -5,23 +5,24 @@
 -- From the paper of the same title by Melissa E. O'Neill,
 -- <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>.
 
+import Data.Word
 import DefaultMain
 
-primes :: [Integer]
+primes :: [Word64]
 primes = 2:([3..] `minus` composites)
   where
     composites = union [multiples p | p <- primes]
   
-multiples :: Integer -> [Integer]
+multiples :: Word64 -> [Word64]
 multiples n = map (n*) [n..]
   
-minus :: [Integer] -> [Integer] -> [Integer]
+minus :: [Word64] -> [Word64] -> [Word64]
 (x:xs) `minus` (y:ys) | x < y = x:(xs `minus` (y:ys))
                       | x == y = xs `minus` ys
                       | x > y = (x:xs) `minus` ys
 _ `minus` _ = error "internal error: bad minus"
   
-union :: [[Integer]] -> [Integer]
+union :: [[Word64]] -> [Word64]
 union = foldr merge []
   where
     merge (x:xs) ys = x:merge' xs ys

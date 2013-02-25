@@ -9,6 +9,7 @@ module DefaultMain (defaultMain)
 where
 
 import Data.List (foldl')
+import Data.Word
 import System.Console.ParseArgs
 
 data ArgLabel = 
@@ -32,12 +33,12 @@ argd = [ Arg { argIndex = ArgUseLimit,
                argData = argDataOptional "limit" ArgtypeInteger,
                argDesc = "Largest candidate prime to use in count." } ]
 
-defaultMain :: [Integer] -> Maybe (Integer -> [Integer]) -> IO ()
+defaultMain :: (Integral a, Show a) => [a] -> Maybe (a -> [a]) -> IO ()
 defaultMain primes primesLimit = do
   argv <- parseArgsIO ArgsComplete argd
   let limit = 
-        case getArg argv ArgLimit of
-          Just l -> l
+        case getArg argv ArgLimit :: Maybe Integer of
+          Just l -> fromIntegral l
           Nothing ->
             case gotArg argv ArgPrint of
               True -> 100
@@ -57,7 +58,7 @@ defaultMain primes primesLimit = do
       print ps
     False -> do
       let (n, p) = 
-            foldl' next (0 :: Integer, undefined) ps
+            foldl' next (0 :: Word64, undefined) ps
             where
               next (a, _) x = (a + 1, x)
       putStrLn $ show p ++ " " ++ show n

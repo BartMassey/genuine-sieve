@@ -17,38 +17,39 @@ where
 -- down this implementation substantially.
 
 import qualified Data.Map as M
+import Data.Word
 
-empty :: M.Map Integer [[Integer]]
+empty :: M.Map Word64 [[Word64]]
 empty = M.empty
 
-deleteMin :: M.Map Integer [[Integer]] ->
-             M.Map Integer [[Integer]]
+deleteMin :: M.Map Word64 [[Word64]] ->
+             M.Map Word64 [[Word64]]
 deleteMin q =
   case M.deleteFindMin q of
     ((_, []), _) -> error "internal error: weird map entry"
     ((_, [_]), q') -> q'
     ((k, _ : xs), q') -> M.insert k xs q'
 
-insert :: Integer -> [Integer] ->
-          M.Map Integer [[Integer]] ->
-          M.Map Integer [[Integer]]
+insert :: Word64 -> [Word64] ->
+          M.Map Word64 [[Word64]] ->
+          M.Map Word64 [[Word64]]
 insert k x q =
   case M.lookup k q of
     Nothing -> M.insert k [x] q
     Just xs -> M.insert k (x : xs) q
 
-deleteMinAndInsert :: Integer -> [Integer] -> 
-                      M.Map Integer [[Integer]] ->
-                      M.Map Integer [[Integer]]
+deleteMinAndInsert :: Word64 -> [Word64] -> 
+                      M.Map Word64 [[Word64]] ->
+                      M.Map Word64 [[Word64]]
 deleteMinAndInsert k v q =
   insert k v $ deleteMin q
 
-findMin :: M.Map Integer [[Integer]] ->
-           (Integer, [Integer])
+findMin :: M.Map Word64 [[Word64]] ->
+           (Word64, [Word64])
 findMin q =
   case M.findMin q of
     (_, []) -> error "internal error: empty map entry"
     (k, x : _) -> (k, x)
 
-minKey :: M.Map Integer [[Integer]] -> Integer
+minKey :: M.Map Word64 [[Word64]] -> Word64
 minKey q = fst $ M.findMin q

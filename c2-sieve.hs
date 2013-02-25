@@ -5,9 +5,10 @@
 -- from the c2 wiki. It is essentially Bird's algorithm, with some
 -- serious optimizations.
 
+import Data.Word
 import DefaultMain
 
-union :: [Integer] -> [Integer] -> [Integer]
+union :: [Word64] -> [Word64] -> [Word64]
 union xs@(x:t) ys@(y:u) = 
   case (compare x y) of
     LT -> x : union t ys
@@ -15,7 +16,7 @@ union xs@(x:t) ys@(y:u) =
     GT -> y : union xs u
 union xs ys = xs ++ ys
 
-minus :: [Integer] -> [Integer] -> [Integer]
+minus :: [Word64] -> [Word64] -> [Word64]
 minus xs@(x:t) ys@(y:u) = 
   case (compare x y) of
     LT -> x : minus t ys
@@ -24,7 +25,7 @@ minus xs@(x:t) ys@(y:u) =
 minus xs _ = xs
 
 {-# OPTIONS_GHC -O2 -fno-cse #-}
-primes :: [Integer]
+primes :: [Word64]
 primes =
   2 : ([3,5..] `minus` unionAll [[p*p, p*p+2*p..] | p <- primes'])
   where
