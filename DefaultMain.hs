@@ -8,6 +8,7 @@
 module DefaultMain (defaultMain)
 where
 
+import Data.List (foldl')
 import System.Console.ParseArgs
 
 data ArgLabel = 
@@ -52,5 +53,11 @@ defaultMain primes primesLimit = do
           False -> 
             takeWhile (<= limit) primes
   case gotArg argv ArgPrint of
-    True -> print ps
-    False -> print $ length ps
+    True -> 
+      print ps
+    False -> do
+      let (n, p) = 
+            foldl' next (0 :: Integer, undefined) ps
+            where
+              next (a, _) x = (a + 1, x)
+      putStrLn $ show p ++ " " ++ show n

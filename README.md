@@ -34,10 +34,13 @@ currently), as well as my `parseargs` package, available
 from [Hackage](http://hackage.haskell.org/package/parseargs).
 
 To run, just run any of the built programs. The output is
-the number of primes between 2 and some limit inclusive. The
-default limt of 2000000 seems about right, but you can specify
-another. You can also specify an optimization to `sieve` only,
-that causes it to go a little faster in this application.
+the last prime and the number of primes up to some
+limit. The default limt of 2000000 seems about right, but
+you can specify another. You can also specify an
+optimization to `massey-sieve` only, that causes it to go
+faster in this application. There is also an option to just
+print the primes as a list (except for `c-sieve`) for
+debugging purposes: the default limit is 100 here.
 
 This work is licensed under the "MIT License".  Please see
 the file COPYING in the source distribution of this software
