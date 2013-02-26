@@ -28,6 +28,11 @@ implementation of the Sieve of Eratosthenes, without the
 2-wheel optimization or the limit optimization. Sadly, it is
 blindingly faster than any of the Haskell implementations.
 
+The file `wheel.hs` contains an implementation of
+`massey-sieve` together with code that constructs a "wheel"
+to accelerate it. It is there mostly for illustrative
+purposes; this code is not built by default.
+
 To build these, just use the supplied Makefile by typing
 "make". You will need a recent GHC release (I'm using 7.4.1
 currently), as well as my `parseargs` package, available

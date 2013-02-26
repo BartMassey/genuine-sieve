@@ -28,14 +28,18 @@ c2-sieve: c2-sieve.o
 c-sieve: c-sieve.c
 	gcc -Wall -O2 -std=c99 -o c-sieve c-sieve.c
 
+wheel: wheel.o
+	ghc -Wall -O2 --make wheel
+
 clean:
-	-rm -f *.hi *.o $(SIEVES)
+	-rm -f *.hi *.o $(SIEVES) wheel
 
 $(HS_SIEVES): DefaultMain.o
 DefaultMain.hi: DefaultMain.o
 PQ.hi: PQ.o
 
 # DO NOT DELETE: Beginning of Haskell dependencies
+wheel.o : wheel.hs
 PQ.o : PQ.hs
 DefaultMain.o : DefaultMain.hs
 bird-sieve.o : bird-sieve.hs
