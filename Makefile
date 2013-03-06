@@ -11,7 +11,7 @@ SIEVES = $(HS_SIEVES) c-sieve
 .hs.o:
 	ghc -Wall -O2 $(GHCFLAGS) --make -c $*.hs
 
-all: $(SIEVES)
+all: $(SIEVES) testPrime
 
 massey-sieve: massey-sieve.o
 	ghc -Wall -O2 --make massey-sieve
@@ -31,8 +31,11 @@ c-sieve: c-sieve.c
 wheel: wheel.o
 	ghc -Wall -O2 --make wheel
 
+testPrime: testPrime.o
+	ghc -Wall -O2 --make testPrime
+
 clean:
-	-rm -f *.hi *.o $(SIEVES) wheel
+	-rm -f *.hi *.o $(SIEVES) wheel testPrime
 
 $(HS_SIEVES): DefaultMain.o
 DefaultMain.hi: DefaultMain.o
@@ -40,6 +43,7 @@ PQ.hi: PQ.o
 
 # DO NOT DELETE: Beginning of Haskell dependencies
 wheel.o : wheel.hs
+testPrime.o : testPrime.hs
 PQ.o : PQ.hs
 DefaultMain.o : DefaultMain.hs
 bird-sieve.o : bird-sieve.hs
