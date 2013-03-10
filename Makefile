@@ -3,7 +3,8 @@
 # Please see the file COPYING in the source
 # distribution of this software for license terms.
 
-HS_SIEVES = massey-sieve oneill-sieve oneill-alt-sieve bird-sieve c2-sieve
+HS_SIEVES = massey-sieve oneill-sieve oneill-alt-sieve \
+	    bird-sieve c2-sieve imperative-sieve
 SIEVES = $(HS_SIEVES) c-sieve
 
 .SUFFIXES: .hs .hi
@@ -11,7 +12,7 @@ SIEVES = $(HS_SIEVES) c-sieve
 .hs.o:
 	ghc -Wall -O2 $(GHCFLAGS) --make -c $*.hs
 
-all: $(SIEVES) testPrime
+all: $(SIEVES) testPrime wheel
 
 massey-sieve: massey-sieve.o
 	ghc -Wall -O2 --make massey-sieve
@@ -33,6 +34,9 @@ bird-sieve: bird-sieve.o
 
 c2-sieve: c2-sieve.o
 	ghc -Wall -O2 --make c2-sieve
+
+imperative-sieve: imperative-sieve.o
+	ghc -Wall -O2 --make imperative-sieve
 
 c-sieve: c-sieve.c
 	gcc -Wall -O2 -std=c99 -o c-sieve c-sieve.c
@@ -64,6 +68,8 @@ bird-sieve.o : bird-sieve.hs
 bird-sieve.o : DefaultMain.hi
 c2-sieve.o : c2-sieve.hs
 c2-sieve.o : DefaultMain.hi
+imperative-sieve.o : imperative-sieve.hs
+imperative-sieve.o : DefaultMain.hi
 massey-sieve.o : massey-sieve.hs
 massey-sieve.o : DefaultMain.hi
 oneill-sieve.o : oneill-sieve.hs
