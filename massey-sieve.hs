@@ -69,4 +69,4 @@ primesLim n = 2 : soe (Just n) [3, 5 .. n]
 
 -- | Test the program's operation.
 main :: IO ()
-main = defaultMain primes (Just primesLim)
+main = defaultMain (Just primes) (Just primesLim)

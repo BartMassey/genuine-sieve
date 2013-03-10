@@ -39,4 +39,4 @@ sieve (x0:xs0) =
             (n, n':ns) = findMin table'
 
 main :: IO ()
-main = defaultMain primes Nothing
+main = defaultMain (Just primes) Nothing

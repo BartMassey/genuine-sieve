@@ -33,4 +33,4 @@ union = foldr merge []
     merge' _ _ = error "internal error: bad merge'"
 
 main :: IO ()
-main = defaultMain primes Nothing
+main = defaultMain (Just primes) Nothing

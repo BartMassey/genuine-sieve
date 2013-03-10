@@ -33,7 +33,7 @@ argd = [ Arg { argIndex = ArgUseLimit,
                argData = argDataOptional "limit" ArgtypeInteger,
                argDesc = "Largest candidate prime to use in count." } ]
 
-defaultMain :: (Integral a, Show a) => [a] -> Maybe (a -> [a]) -> IO ()
+defaultMain :: (Integral a, Show a) => Maybe [a] -> Maybe (a -> [a]) -> IO ()
 defaultMain primes primesLimit = do
   argv <- parseArgsIO ArgsComplete argd
   let limit = 
@@ -51,8 +51,12 @@ defaultMain primes primesLimit = do
                 usageError argv "Use-limit flag unsupported by this sieve."
               Just pl -> 
                 pl limit
-          False -> 
-            takeWhile (<= limit) primes
+          False ->
+            case primes of
+              Nothing -> 
+                usageError argv "Prime stream unsupported by this sieve."
+              Just qs ->
+                takeWhile (<= limit) qs
   case gotArg argv ArgPrint of
     True -> 
       print ps

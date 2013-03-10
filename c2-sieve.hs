@@ -41,4 +41,4 @@ primes =
       error "internal error: pairs ran off end"
 
 main :: IO ()
-main = defaultMain primes Nothing
+main = defaultMain (Just primes) Nothing
