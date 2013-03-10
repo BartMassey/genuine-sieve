@@ -20,14 +20,15 @@ massey-sieve: massey-sieve.o
 oneill-sieve: oneill-sieve.o PQ.o
 	ghc -Wall -O2 --make oneill-sieve
 
-oneill-alt-sieve: oneill-sieve.hs MPQ.hi DefaultMain.hi
-	( [ -f oneill-alt-sieve.hs ] || \
-	ln -s oneill-sieve.hs oneill-alt-sieve.hs ) && \
-	ghc -Wall -O2 -DUSE_MPQ --make oneill-alt-sieve.hs
+oneill-alt-sieve: oneill-alt-sieve.o MPQ.o DefaultMain.o
+	ghc -Wall -O2 --make oneill-alt-sieve
 
-oneill-alt-sieve.o: oneill-sieve.hs MPQ.hi DefaultMain.hi
-	ghc -Wall -O2 -DUSE_MPQ -c \
-	  -o oneill-alt-sieve.o oneill-sieve.hs
+oneill-alt-sieve.o: oneill-alt-sieve.hs MPQ.hi DefaultMain.hi
+	ghc -Wall -O2 -DUSE_MPQ -c oneill-alt-sieve.hs
+
+oneill-alt-sieve.hs: oneill-sieve.hs
+	[ -f oneill-alt-sieve.hs ] || \
+	ln -s oneill-sieve.hs oneill-alt-sieve.hs
 
 bird-sieve: bird-sieve.o
 	ghc -Wall -O2 --make bird-sieve
