@@ -7,7 +7,7 @@
 -- Intended for proving that 8675309 is prime.
 
 import Data.Set hiding (foldr, map, foldl')
-import Data.List (mapAccumL)
+import Data.List (mapAccumL, find)
 import Data.Word
 import System.Environment
 import System.Exit
@@ -67,10 +67,10 @@ main = do
   [cps] <- getArgs
   let cp = read cps
   let ps = takeWhile (\p -> p * p <= cp) $ primes 6
-  if any (\p -> cp `mod` p == 0) ps
-    then do
-      putStrLn $ cps ++ " is composite"
+  case find (\p -> cp `mod` p == 0) ps of
+    Just f -> do
+      putStrLn $ cps ++ " has factor " ++ show f
       exitFailure
-    else do
+    Nothing -> do
       putStrLn $ cps ++ " is prime"
       exitSuccess
