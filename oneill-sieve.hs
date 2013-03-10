@@ -1,16 +1,21 @@
+{-# LANGUAGE CPP #-}
 -- Copyright © 2008 Melissa E. O'Neill
 -- Used without permission
 
--- | "Genuine Sieve of Eratosthenes" in pure lists.  From the
--- paper of the same title by Melissa E. O'Neill,
+-- | "Genuine Sieve of Eratosthenes" in pure lists.  From
+-- the paper of the same title by Melissa E. O'Neill,
 -- <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>.
 -- This is the version with evens struck but without the
--- full wheel, for comparison purposes. The PQ is custom-
--- crafted: see the comments there for details.
+-- full wheel, for comparison purposes. The priority queues
+-- are custom-crafted: see the comments there for details.
 
 import Data.Word
 import DefaultMain
+#ifdef USE_MPQ
+import MPQ
+#else
 import PQ
+#endif
 
 primes :: [Word64]
 primes = 2 : sieve [3,5..]
