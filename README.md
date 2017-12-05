@@ -7,7 +7,9 @@ from the paper of this title by Melissa E. O'Neill,
 J. Functional Programming 19:1, January 2009
 <http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf>.
 
-In particular, the files `oneill-sieve.hs` and
+## Manifest
+
+The files `oneill-sieve.hs` and
 `bird-sieve.hs` are taken directly from the above-referenced
 paper. The file `PQ.hs` contains a keyed priority queue
 using `Data.Map` that I wrote to make the O'Neill sieve
@@ -35,10 +37,22 @@ blindingly faster than any of the Haskell implementations.
 
 The file `imperative-sieve.hs` contains a fairly
 straightforward Haskell implementation of the Sieve of
-Eratosthenes using an `STUArray` of `Bool`. It is about an
-order of magnitude slower than the C implementation. This
-makes it about an order of magnitude faster than the c2
-sieve, the fastest of the Haskell "Genuine Sieves".
+Eratosthenes using an `STUArray` of `Bool`.
+
+The file `wheel.hs` contains an implementation of
+`massey-sieve` together with code that constructs a "wheel"
+to accelerate it. It is there mostly for illustrative and
+timing purposes. You can run it with "./wheel <wheel-size>
+limit".
+
+The file `testPrime.hs` contains a copy of the wheel sieve
+(I don't know why I chose this one rather than the c2 sieve
+or the imperative sieve) together with a driver that reports
+on whether the given `Word64` argument is prime. It is
+intended for testing the primality of phone numbers, and in
+particular will report that 8675309 is prime.
+
+## Building and Running
 
 To build these, just use the supplied Makefile by typing
 "make". You will need a recent GHC release (I'm using 8.2.2
@@ -56,18 +70,32 @@ infinite stream. There is also an option to just print the
 primes as a list (except for `c-sieve`) for debugging
 purposes: the default limit is 100 here.
 
-The file `wheel.hs` contains an implementation of
-`massey-sieve` together with code that constructs a "wheel"
-to accelerate it. It is there mostly for illustrative and
-timing purposes. You can run it with "./wheel <wheel-size>
-limit".
+## Benchmarking
 
-The file `testPrime.hs` contains a copy of the wheel sieve
-(I don't know why I chose this one rather than the c2 sieve
-or the imperative sieve) together with a driver that reports
-on whether the given `Word64` argument is prime. It is
-intended for testing the primality of phone numbers, and in
-particular will report that 8675309 is prime.
+To bench these, build them and then run `sh bench.sh` on a
+Linux box.  You'll need Python 3.
+
+Here's some current times. Times are "seconds per million primes",
+which is a bad measure but easy to implement. I've run
+comparison tests with equal instance sizes and these numbers
+seem relatively OK.
+
+    c-sieve: 0.0025
+    imperative-sieve: 0.01
+    c2-sieve: 0.11
+    bird-sieve: 0.38
+    oneill-sieve: 0.56
+    oneill-alt-sieve: 0.57
+    massey-sieve: 0.61
+
+The Haskell imperative sieve is currently about four times
+slower than the C implementation. The c2 sieve, the fastest
+of the Haskell "Genuine Sieves", is about 20 times slower
+than the imperative sieve. All of the oneill-style sieves,
+including mine, are about the same speed: ridiculously
+slower than a naïve C implementation.
+
+## License
 
 This work is licensed under the "MIT License".  Please see
 the file COPYING in the source distribution of this software
