@@ -6,7 +6,7 @@
 -- | Fast primality testing for "medium-sized" primes.
 -- Intended for proving that 8675309 is prime.
 
-import Data.Set hiding (foldr, map, foldl')
+import Data.Set hiding (foldr, map, foldl', take)
 import Data.List (mapAccumL, find)
 import Data.Word
 import System.Environment

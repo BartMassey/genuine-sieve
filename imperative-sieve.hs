@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleContexts #-}
 -- Copyright © 2013 Bart Massey
 -- [This work is licensed under the "MIT License"]
 -- Please see the file COPYING in the source
@@ -9,7 +10,7 @@
 -- of Eratosthenes designed to be comparable with the
 -- C version.
 
-import Control.Monad.ST.Safe
+import Control.Monad.ST
 import Data.Array.ST.Safe
 import Data.Word
 import DefaultMain

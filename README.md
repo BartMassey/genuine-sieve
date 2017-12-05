@@ -41,13 +41,13 @@ makes it about an order of magnitude faster than the c2
 sieve, the fastest of the Haskell "Genuine Sieves".
 
 To build these, just use the supplied Makefile by typing
-"make". You will need a recent GHC release (I'm using 7.4.1
+"make". You will need a recent GHC release (I'm using 8.2.2
 currently), as well as my `parseargs` package, available
 from [Hackage](http://hackage.haskell.org/package/parseargs).
 
 To run, just run any of the built sieve programs. The output
 is the last prime and the number of primes up to some
-limit. The default limt of 2000000 seems about right, but
+limit. The default limit of 2000000 seems about right, but
 you can specify another. You can also specify a limit option
 as an optimization to `massey-sieve` only, that causes it to
 go faster in this application. For `imperative-sieve`, you

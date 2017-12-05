@@ -5,7 +5,7 @@
 
 -- | "Wheel" generation for the Sieve of Eratosthenes.
 
-import Data.Set hiding (foldr, map, foldl')
+import Data.Set hiding (foldr, map, foldl', take)
 import Data.List (mapAccumL, foldl')
 import Data.Word
 import System.Environment
