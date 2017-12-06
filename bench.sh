@@ -10,10 +10,12 @@
 # rewrote to get extra precision.  I plan to upstream
 # it. Now that I've ironed out timing loop lengths, it
 # should actually be adequate to use standard time in the
-# meantime.
+# meantime. Of course, some systems have only POSIX time, so
+# we'll actually use that by default.
 
 #TIME="etime -f %3e"
-TIME="time -f %e"
+#TIME="time -f %e"
+TIME="sh ./time.sh"
 
 # Note: "2>&1 >/dev/null" sends the time output that was on
 # stderr to stdout and throws away the result "0" that the
